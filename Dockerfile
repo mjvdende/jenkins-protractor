@@ -13,8 +13,6 @@ RUN apt-get update -qqy \
   && apt-get -qqy --no-install-recommends install \
     ca-certificates \
     build-essential \
-    nodejs \
-    npm \
     git \
     maven \
     sudo \
