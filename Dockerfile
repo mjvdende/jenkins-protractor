@@ -104,6 +104,7 @@ COPY config.json /opt/selenium/config.json
 COPY chrome_launcher.sh /opt/google/chrome/google-chrome
 RUN chmod +x /opt/google/chrome/google-chrome
 
+RUN npm install jasmine-reporters@^1.0.0
 RUN webdriver-manager update
 
 USER jenkins
