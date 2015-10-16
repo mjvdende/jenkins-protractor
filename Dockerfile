@@ -12,14 +12,22 @@ USER root
 RUN apt-get update -qqy \
   && apt-get -qqy --no-install-recommends install \
     ca-certificates \
-    build-essential \
+    openjdk-8-jre-headless \
+    openjdk-8-jdk \
     git \
     maven \
     sudo \
     unzip \
     wget \
+    build-essential \
   && rm -rf /var/lib/apt/lists/* \
   && sed -i 's/securerandom\.source=file:\/dev\/random/securerandom\.source=file:\/dev\/urandom/' ./usr/lib/jvm/java-8-openjdk-amd64/jre/lib/security/java.security
+
+# Setup nodejs repo
+RUN curl -sL https://deb.nodesource.com/setup_4.x | bash -
+RUN apt-get install -y nodejs && ln -sf /usr/bin/nodejs /usr/bin/node && npm install npm -g
+
+USER jenkins
 
 #==========
 # Selenium
