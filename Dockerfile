@@ -27,8 +27,6 @@ RUN apt-get update -qqy \
 RUN curl -sL https://deb.nodesource.com/setup_4.x | bash -
 RUN apt-get install -y nodejs && ln -sf /usr/bin/nodejs /usr/bin/node && npm install npm -g
 
-USER jenkins
-
 #==========
 # Selenium
 #==========
@@ -46,7 +44,6 @@ RUN sudo useradd tester --shell /bin/bash --create-home \
 #========================================
 # NodeJS Tooling
 #========================================
-RUN ln -s /usr/bin/nodejs /usr/bin/node
 RUN npm install -g grunt-cli bower protractor jasmine-reporters@^1.0.0
 
 #===================
@@ -107,11 +104,6 @@ COPY config.json /opt/selenium/config.json
 COPY chrome_launcher.sh /opt/google/chrome/google-chrome
 RUN chmod +x /opt/google/chrome/google-chrome
 
-#==============================
-# Scripts to run Selenium Node
-#==============================
-COPY entry_point.sh /opt/bin/entry_point.sh
-RUN chmod +x /opt/bin/entry_point.sh
-
 RUN webdriver-manager update
-RUN npm install jasmine-reporters@^1.0.0
+
+USER jenkins
