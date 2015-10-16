@@ -4,11 +4,7 @@ MAINTAINER mjvdende <@mjvdende>
 ENV DEBIAN_FRONTEND noninteractive
 ENV DEBCONF_NONINTERACTIVE_SEEN true
 
-#================================================
-# Customize sources for apt-get
-#================================================
-RUN  echo "deb http://archive.ubuntu.com/ubuntu vivid main universe\n" > /etc/apt/sources.list \
-  && echo "deb http://archive.ubuntu.com/ubuntu vivid-updates main universe\n" >> /etc/apt/sources.list
+USER root
 
 #========================
 # Packages
@@ -16,8 +12,7 @@ RUN  echo "deb http://archive.ubuntu.com/ubuntu vivid main universe\n" > /etc/ap
 RUN apt-get update -qqy \
   && apt-get -qqy --no-install-recommends install \
     ca-certificates \
-    openjdk-8-jre-headless \
-    openjdk-8-jdk \
+    build-essential \
     nodejs \
     npm \
     git \
@@ -45,6 +40,7 @@ RUN sudo useradd tester --shell /bin/bash --create-home \
 #========================================
 # NodeJS Tooling
 #========================================
+RUN ln -s /usr/bin/nodejs /usr/bin/node
 RUN npm install -g grunt-cli bower protractor jasmine-reporters@^1.0.0
 
 #===================
@@ -70,8 +66,6 @@ ENV SCREEN_WIDTH 1360
 ENV SCREEN_HEIGHT 1020
 ENV SCREEN_DEPTH 24
 ENV DISPLAY :99.0
-
-USER root
 
 #===============
 # Google Chrome
@@ -112,3 +106,6 @@ RUN chmod +x /opt/google/chrome/google-chrome
 #==============================
 COPY entry_point.sh /opt/bin/entry_point.sh
 RUN chmod +x /opt/bin/entry_point.sh
+
+RUN webdriver-manager update
+RUN npm install jasmine-reporters@^1.0.0
