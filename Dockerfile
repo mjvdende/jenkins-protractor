@@ -92,4 +92,9 @@ COPY config.json /opt/selenium/config.json
 COPY chrome_launcher.sh /opt/google/chrome/google-chrome
 RUN chmod +x /opt/google/chrome/google-chrome
 
+#====================
+# Copy mesos lib
+#====================
+COPY libmesos-0.24.1.so /var/lib/libmesos-0.24.1.so
+
 USER jenkins
